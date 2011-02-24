@@ -1,6 +1,4 @@
-#!/usr/bin/env runscala
-!#
+#!/usr/bin/env scalacript
 println("Hello, world, from a script! " + (args toList) )
-//throw new RuntimeException("hehe")
 
 
