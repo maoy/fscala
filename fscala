@@ -106,7 +106,14 @@ if [ -e $CLASSDIR/ScriptMain.class ] && [ $CLASSDIR/ScriptMain.class -nt $1 ] ; 
 fi
 
 mkdir -p $CLASSDIR/ || exit 1
-printf "object ScriptMain { def main(argv:Array[String]) { val args=argv.tail; new AnyRef { //" > $MAIN_SCALA || exit 1
+
+FIRST_TWO_CHARS="`head -c2 $1`"
+if [ "$FIRST_TWO_CHARS" = "#!" ]; then
+    printf "object ScriptMain { def main(argv:Array[String]) { val args=argv.tail; new AnyRef { //" > $MAIN_SCALA || exit 1
+else
+    printf "object ScriptMain { def main(argv:Array[String]) { val args=argv.tail; new AnyRef { " > $MAIN_SCALA || exit 1
+fi
+
 cat $1 >> $MAIN_SCALA || exit 1
 echo "} } }" >> $MAIN_SCALA || exit 1
 "${JAVACMD:=java}" $JAVA_OPTS -cp "$TOOL_CLASSPATH" -Dscala.home="$SCALA_HOME" -Denv.emacs="$EMACS"  scala.tools.nsc.CompileClient -d $CLASSDIR/ $MAIN_SCALA && exec "${JAVACMD:=java}" $JAVA_OPTS -cp "$TOOL_CLASSPATH":$CLASSDIR ScriptMain "$@"
