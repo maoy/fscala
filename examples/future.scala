@@ -1,4 +1,4 @@
-#!/usr/bin/env scalacript
+#!/usr/bin/env fscala
 import scala.concurrent.ops._;
 
 val args = List(1,2)

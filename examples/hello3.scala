@@ -1,4 +1,4 @@
-#!/usr/bin/env scalacript
+#!/usr/bin/env fscala
 class Blah {
     def blahMethod(x:Int) = x + 1
 }

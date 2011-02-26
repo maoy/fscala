@@ -1,6 +1,6 @@
 #!/bin/sh
 ##############################################################################
-# scalacript: a faster way to run scala scripts
+# fscala: a faster way to run scala scripts
 # author: Yun Mao (maoy@alumni.upenn.edu)
 # The script inherited most of the PATH/CLASSPATH stuff from scala in 
 # standard scala distribution
