@@ -91,7 +91,7 @@ fi
 
 # new stuff #
 SCRIPTNAME=`basename $1 .scala`
-# all compiled classes will be put in scriptname.classes folder
+# all compiled classes will be put in .$SCRIPTNAME.classes folder
 CLASSDIR=`dirname $1`/.$SCRIPTNAME.classes
 
 MAIN_SCALA=$CLASSDIR/$SCRIPTNAME.scala
