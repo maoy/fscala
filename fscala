@@ -13,6 +13,10 @@
 # PARTICULAR PURPOSE.
 ##############################################################################
 
+if [ "$1" == "" ]; then
+  exec scala # no argument given, call scala instead
+fi
+
 cygwin=false;
 case "`uname`" in
     CYGWIN*) cygwin=true ;;
