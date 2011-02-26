@@ -17,6 +17,11 @@ if [ -z "$1" ] ; then
   exec scala # no argument given, call scala instead
 fi
 
+if [ ! -r "$1" ] ; then
+  echo "no such file or not readable: $1"
+  exit 1
+fi
+
 cygwin=false;
 case "`uname`" in
     CYGWIN*) cygwin=true ;;
@@ -100,8 +105,9 @@ if [ -e $CLASSDIR/ScriptMain.class ] && [ $CLASSDIR/ScriptMain.class -nt $1 ] ; 
     exec "${JAVACMD:=java}" $JAVA_OPTS -cp "$TOOL_CLASSPATH":$CLASSDIR ScriptMain "$@"
 fi
 
-mkdir -p $CLASSDIR/
-printf "object ScriptMain { def main(argv:Array[String]) { val args=argv.tail; new AnyRef { //" > $MAIN_SCALA
-cat $1 >> $MAIN_SCALA
-echo "} } }" >> $MAIN_SCALA
+mkdir -p $CLASSDIR/ || exit 1
+printf "object ScriptMain { def main(argv:Array[String]) { val args=argv.tail; new AnyRef { //" > $MAIN_SCALA || exit 1
+cat $1 >> $MAIN_SCALA || exit 1
+echo "} } }" >> $MAIN_SCALA || exit 1
 "${JAVACMD:=java}" $JAVA_OPTS -cp "$TOOL_CLASSPATH" -Dscala.home="$SCALA_HOME" -Denv.emacs="$EMACS"  scala.tools.nsc.CompileClient -d $CLASSDIR/ $MAIN_SCALA && exec "${JAVACMD:=java}" $JAVA_OPTS -cp "$TOOL_CLASSPATH":$CLASSDIR ScriptMain "$@"
+
